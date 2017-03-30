@@ -1,14 +1,18 @@
-Unity3D Event Aggregator
+Unity3D 事件总线
 ======================
+从别人那fork来的代码,其实实现很简单,然而懒人的我并不想写.
+# 使用方法: #
 
-Event aggregation in Unity3D made easy!  Decouple your GameObjects for simpler and cleaner code.
+## 监听者部分: ##
 
-#### Why Should I Care?
-[Look at how gross this is.](http://docs.unity3d.com/412/Documentation/ScriptReference/index.Accessing_Other_Game_Objects.html)  Disgusting, huh?  Now what if there was an easy way to send messages to other game objects in Unity3D without coupling everything to hell or using skittles magic?
+注册事件监听器(在start函数中调用):
+     EventAggregator.Register<BaseEvent>(this);
+反注册事件监听器(在OnDestroy函数中调用):
+    EventAggregator.UnRegister<BaseEvent>(this);
 
-#### That way is here.
-Just drop the .dll into your existing Unity3D project and get started.  Messages must be a class.
+## 事件发生在部分: ##
 
-To start listening to events, your MonoBehaviour must also inherit from `IListener<(message)>`.  This will create the handler for the message.
+发送事件:
+	 EventAggregator.SendMessage<BaseEvent>(new BaseEvent());
 
-Make sure you register and unregister with the `EventAggregator` in your MonoBehaviour's `Start` and `OnDestroy` methods.  I'll probably create a base class to inherit from that will do this automatically for you...when I'm feeling less lazy.
+BaseEvent是我做的一个事件基类,其他事件类必须派生此类才行.
